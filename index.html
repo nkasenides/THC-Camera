@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>QR Code Reader 4</title>
+    <title>QR Code Reader</title>
     <script type="text/javascript" src="js/instascan.min.js"></script>
 </head>
 <body>
@@ -47,18 +47,20 @@
         scanPeriod: 1
     };
 
-    let scanner = new Instascan.Scanner(opts);
-    scanner.addListener('scan', function (content) {
-        console.log(content);
-    });
     Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
+            console.log(cameras);
             scanner.start(cameras[0]);
         } else {
             console.error('No cameras found.');
         }
     }).catch(function (e) {
         console.error(e);
+    });
+
+    let scanner = new Instascan.Scanner(opts);
+    scanner.addListener('scan', function (content) {
+        console.log(content);
     });
 
 </script>
