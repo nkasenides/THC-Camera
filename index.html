@@ -57,7 +57,7 @@
     Instascan.Camera.getCameras().then(function (cameras) {
         numOfCameras = cameras.length;
         if (cameras.length > 0) {
-            console.log(cameras);
+            alert(cameras);
             scanner.start(cameras[2]);
             alert("Num of Cameras: " + numOfCameras);
             alert("Current camera index: " + cameraIndex);
