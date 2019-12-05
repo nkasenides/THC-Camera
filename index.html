@@ -52,7 +52,21 @@
     let cameraIndex = 0;
     let numOfCameras = 0;
 
-    switchCamera();
+    // switchCamera();
+
+    Instascan.Camera.getCameras().then(function (cameras) {
+        numOfCameras = cameras.length;
+        if (cameras.length > 0) {
+            console.log(cameras);
+            scanner.start(cameras[2]);
+            alert("Num of Cameras: " + numOfCameras);
+            alert("Current camera index: " + cameraIndex);
+        } else {
+            alert('No cameras found.');
+        }
+    }).catch(function (e) {
+        alert(e);
+    });
 
     let scanner = new Instascan.Scanner(opts);
     scanner.addListener('scan', function (content) {
@@ -60,26 +74,26 @@
     });
 
     function switchCamera() {
-        if (numOfCameras > cameraIndex + 1) {
-            cameraIndex++;
-        }
-        else {
-            cameraIndex = 0;
-        }
-
-        Instascan.Camera.getCameras().then(function (cameras) {
-            numOfCameras = cameras.length;
-            if (cameras.length > 0) {
-                console.log(cameras);
-                scanner.start(cameras[cameraIndex]);
-                alert("Num of Cameras: " + numOfCameras);
-                alert("Current camera index: " + cameraIndex);
-            } else {
-                alert('No cameras found.');
-            }
-        }).catch(function (e) {
-            alert(e);
-        });
+        // if (numOfCameras > cameraIndex + 1) {
+        //     cameraIndex++;
+        // }
+        // else {
+        //     cameraIndex = 0;
+        // }
+        //
+        // Instascan.Camera.getCameras().then(function (cameras) {
+        //     numOfCameras = cameras.length;
+        //     if (cameras.length > 0) {
+        //         console.log(cameras);
+        //         scanner.start(cameras[cameraIndex]);
+        //         alert("Num of Cameras: " + numOfCameras);
+        //         alert("Current camera index: " + cameraIndex);
+        //     } else {
+        //         alert('No cameras found.');
+        //     }
+        // }).catch(function (e) {
+        //     alert(e);
+        // });
     }
 
 </script>
