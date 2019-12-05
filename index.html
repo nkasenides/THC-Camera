@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>QR Code Reader - 4</title>
+    <title>QR Code Reader - 5</title>
     <script type="text/javascript" src="js/instascan.min.js"></script>
 </head>
 <body>
@@ -51,6 +51,7 @@
 
     let cameraIndex = 0;
     let numOfCameras = 0;
+    let scannerInitialized = false;
 
     switchCamera();
 
@@ -67,7 +68,9 @@
             cameraIndex = 0;
         }
 
-        scanner.stop();
+        if (scannerInitialized) {
+            scanner.stop();
+        }
 
         Instascan.Camera.getCameras().then(function (cameras) {
             numOfCameras = cameras.length;
@@ -76,6 +79,7 @@
                 scanner.start(cameras[cameraIndex]);
                 alert("Num of Cameras: " + numOfCameras);
                 alert("Current camera index: " + cameraIndex);
+                scannerInitialized = true;
             } else {
                 alert('No cameras found.');
             }
