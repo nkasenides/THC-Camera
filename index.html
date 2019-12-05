@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>QR Code Reader - 5</title>
+    <title>QR Code Reader - 6</title>
     <script type="text/javascript" src="js/instascan.min.js"></script>
 </head>
 <body>
@@ -50,43 +50,39 @@
     };
 
     let cameraIndex = 0;
-    let numOfCameras = 0;
-    let scannerInitialized = false;
-
-    switchCamera();
+    let cameraArray;
 
     let scanner = new Instascan.Scanner(opts);
     scanner.addListener('scan', function (content) {
         console.log(content);
     });
 
+    Instascan.Camera.getCameras().then(function (cameras) {
+        cameraArray = cameras;
+        if (cameras.length > 0) {
+            cameraIndex = cameras[0].id;
+            scanner.start(cameras[0]);
+        } else {
+            alert('No cameras found.');
+        }
+    }).catch(function (e) {
+        alert(e);
+    });
+
     function switchCamera() {
-        if (cameraIndex < numOfCameras - 1) {
+        if (cameraIndex < cameraArray.length - 1) {
             cameraIndex++;
         }
         else {
             cameraIndex = 0;
         }
 
-        if (scannerInitialized) {
-            scanner.stop();
-        }
-
-        Instascan.Camera.getCameras().then(function (cameras) {
-            numOfCameras = cameras.length;
-            if (cameras.length > 0) {
-                console.log(cameras);
-                scanner.start(cameras[cameraIndex]);
-                alert("Num of Cameras: " + numOfCameras);
-                alert("Current camera index: " + cameraIndex);
-                scannerInitialized = true;
-            } else {
-                alert('No cameras found.');
-            }
-        }).catch(function (e) {
-            alert(e);
-        });
+        let camera = cameraArray[cameraIndex];
+        scanner.start(camera);
     }
+
+
+
 
 </script>
 </body>
